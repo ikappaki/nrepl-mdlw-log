@@ -1,0 +1,6 @@
+*~
+.clj-kondo
+.cpcache
+.nrepl-port
+nrepl-mdlw-log.log
+.lsp
