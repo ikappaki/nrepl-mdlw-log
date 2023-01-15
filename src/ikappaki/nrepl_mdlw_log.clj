@@ -10,16 +10,15 @@
   (let [filename "nrepl-mdlw-log.log"
         _ (io/delete-file filename true)
         out (io/file filename)]
-    (println :created out)
+    (println ::log-created-at (.getCanonicalPath out))
     (fn [{:keys [op id] :as msg}]
       (let [before (java.time.Instant/now)]
         (try
-          (println :printing... out id (str before))
           (spit out (format ":----- :id %s :when %s\n:dbg/in\n%S:_____\n"
                             id before (with-out-str (pp/pprint msg)))
                 :append true)
           (catch Exception e
-            (println :wrap-log-error (str e))))
+            (println ::wrap-log-error (str e))))
         (let [_ret (h msg)
               after (java.time.Instant/now)]
           (spit out (format "\n:===== :id %s :when %s :op %s :diff-ms %s\n\n"
